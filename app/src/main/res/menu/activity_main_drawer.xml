@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="@string/menu_group_movies">
+            <menu>
+                <item
+                    android:id="@+id/nav_popular_movies"
+                    android:icon="@mipmap/ic_movie_creation_white_24dp"
+                    android:title="@string/menu_item_popular"
+                    android:checked="true">
+                </item>
+                <item
+                    android:id="@+id/nav_top_rated_movies"
+                    android:icon="@mipmap/ic_movie_filter_white_24dp"
+                    android:title="@string/menu_item_top_rated">
+                </item>
+                <item
+                    android:id="@+id/nav_upcoming"
+                    android:icon="@mipmap/ic_new_releases_white_24dp"
+                    android:title="@string/menu_item_upcoming">
+                </item>
+                <item
+                    android:id="@+id/nav_now_playing"
+                    android:icon="@mipmap/ic_local_movies_white_24dp"
+                    android:title="@string/menu_item_now_playing">
+                </item>
+            </menu>
+        </item>
+
+        <item android:title="@string/menu_group_tv_shows">
+            <menu>
+                <item
+                    android:id="@+id/nav_popular_tv_shows"
+                    android:icon="@mipmap/ic_whatshot_white_24dp"
+                    android:title="@string/menu_item_popular">
+                </item>
+                <item
+                    android:id="@+id/nav_top_rated_tv_shows"
+                    android:icon="@mipmap/ic_local_activity_white_24dp"
+                    android:title="@string/menu_item_top_rated">
+                </item>
+                <item
+                    android:id="@+id/nav_on_tv"
+                    android:icon="@mipmap/ic_tv_white_24dp"
+                    android:title="@string/menu_item_on_tv">
+                </item>
+                <item
+                    android:id="@+id/nav_airing_today"
+                    android:icon="@mipmap/ic_live_tv_white_24dp"
+                    android:title="@string/menu_item_airing_today">
+                </item>
+            </menu>
+        </item>
+
+        <item android:title="@string/menu_group_people">
+            <menu>
+                <item
+                    android:id="@+id/nav_popular_people"
+                    android:icon="@mipmap/ic_people_white_24dp"
+                    android:title="@string/menu_item_popular_people">
+                </item>
+            </menu>
+        </item>
+
+    </group>
+
+</menu>

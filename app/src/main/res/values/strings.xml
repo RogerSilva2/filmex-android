@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Filmex</string>
+    <string name="developer">Roger Silva</string>
+    <string name="git_hub">https://github.com/RogerSilva2</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_group_movies">Movies</string>
+    <string name="menu_group_tv_shows">TV Shows</string>
+    <string name="menu_group_people">People</string>
+
+    <string name="menu_item_popular">Popular</string>
+    <string name="menu_item_top_rated">Top Rated</string>
+    <string name="menu_item_upcoming">Upcoming</string>
+    <string name="menu_item_now_playing">Now Playing</string>
+    <string name="menu_item_on_tv">On TV</string>
+    <string name="menu_item_airing_today">Airing Today</string>
+    <string name="menu_item_popular_people">Popular People</string>
+
+    <string name="message_loading">Loading</string>
+
+    <string name="error_server_unavailable">Error server unavailable</string>
+    <string name="error_getting_movies">Error getting movies</string>
+    <string name="error_getting_tv_shows">Error getting TV shows</string>
+    <string name="error_getting_people">Error getting people</string>
+    <string name="error_getting_property">Error getting property</string>
+    <string name="error_date_format">Error date format</string>
+</resources>

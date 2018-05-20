@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_group_movies">Filmes</string>
+    <string name="menu_group_tv_shows">Séries</string>
+    <string name="menu_group_people">Pessoas</string>
+
+    <string name="menu_item_popular">Populares</string>
+    <string name="menu_item_top_rated">Mais bem avaliados</string>
+    <string name="menu_item_upcoming">Próximas estreias</string>
+    <string name="menu_item_now_playing">Em cartaz</string>
+    <string name="menu_item_on_tv">Na TV</string>
+    <string name="menu_item_airing_today">Em exibição hoje</string>
+    <string name="menu_item_popular_people">Pessoas Populares</string>
+
+    <string name="message_loading">Carregando</string>
+
+    <string name="error_server_unavailable">Erro servidor indisponível</string>
+    <string name="error_getting_movies">Erro ao obter filmes</string>
+    <string name="error_getting_tv_shows">Erro ao obter programas de TV</string>
+    <string name="error_getting_people">Erro ao obter pessoas</string>
+    <string name="error_getting_property">Erro ao obter propriedade</string>
+    <string name="error_date_format">Erro ao formatar data</string>
+</resources>
