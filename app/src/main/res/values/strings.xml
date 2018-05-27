@@ -7,7 +7,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="format_date">MMM dd, yyyy</string>
+    <string name="format_date_short">yyyy-MM-dd</string>
 
     <string name="menu_group_movies">Movies</string>
     <string name="menu_group_tv_shows">TV Shows</string>
@@ -23,7 +24,19 @@
 
     <string name="message_loading">Loading</string>
 
+    <string name="text_status">Status</string>
+    <string name="text_rumored">Rumored</string>
+    <string name="text_planned">Planned</string>
+    <string name="text_in_production">In Production</string>
+    <string name="text_post_production">Post Production</string>
+    <string name="text_released">Released</string>
+    <string name="text_canceled">Canceled</string>
+    <string name="text_original_title">Original Title</string>
+    <string name="text_overview">Overview</string>
+    <string name="text_genres">Genres</string>
+
     <string name="error_server_unavailable">Error server unavailable</string>
+    <string name="error_getting_movie">Error getting movie</string>
     <string name="error_getting_movies">Error getting movies</string>
     <string name="error_getting_tv_shows">Error getting TV shows</string>
     <string name="error_getting_people">Error getting people</string>

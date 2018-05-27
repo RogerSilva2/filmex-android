@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="format_date">dd \'de\' MMMM \'de\' yyyy</string>
+    <string name="format_date_short">dd/MM/yyyy</string>
+
     <string name="menu_group_movies">Filmes</string>
     <string name="menu_group_tv_shows">Séries</string>
     <string name="menu_group_people">Pessoas</string>
@@ -14,7 +17,19 @@
 
     <string name="message_loading">Carregando</string>
 
+    <string name="text_status">Situação</string>
+    <string name="text_rumored">Rumores</string>
+    <string name="text_planned">Planejado</string>
+    <string name="text_in_production">Em Produção</string>
+    <string name="text_post_production">Pós-produção</string>
+    <string name="text_released">Lançado</string>
+    <string name="text_canceled">Cancelado</string>
+    <string name="text_original_title">Título Original</string>
+    <string name="text_overview">Sinopse</string>
+    <string name="text_genres">Gêneros</string>
+
     <string name="error_server_unavailable">Erro servidor indisponível</string>
+    <string name="error_getting_movie">Erro ao obter filme</string>
     <string name="error_getting_movies">Erro ao obter filmes</string>
     <string name="error_getting_tv_shows">Erro ao obter programas de TV</string>
     <string name="error_getting_people">Erro ao obter pessoas</string>

@@ -1,5 +1,6 @@
 package br.com.infinitytechnology.filmex.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity
         TvShowsFragment.OnTvShowsFragmentInteractionListener,
         PeopleFragment.OnPeopleFragmentInteractionListener {
 
+    public static final String ARGS = "ARGS";
+    public static final String ARG_MOVIE_ID = "MOVIE_ID";
+
     public static final String TAG_FRAGMENT_POPULAR_MOVIES = "FRAGMENT_POPULAR_MOVIES";
     public static final String TAG_FRAGMENT_TOP_RATED_MOVIES = "FRAGMENT_TOP_RATED_MOVIES";
     public static final String TAG_FRAGMENT_UPCOMING = "FRAGMENT_UPCOMING";
@@ -50,14 +54,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,8 +93,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        return id == R.id.action_settings || super.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 
@@ -170,6 +172,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMoviesFragmentInteraction(Movie movie) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_MOVIE_ID, movie.getId());
+
+        Intent intent = new Intent(this, DetailMovieActivity.class);
+        intent.putExtra(ARGS, args);
+
+        startActivity(intent);
     }
 
     @Override
