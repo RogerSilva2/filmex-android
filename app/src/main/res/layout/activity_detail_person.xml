@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.DetailMovieActivity">
+    tools:context=".activities.DetailPersonActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/colorPrimary">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -25,20 +26,28 @@
             app:toolbarId="@+id/toolbar">
 
             <ImageView
-                android:id="@+id/image_view_backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
-                app:layout_collapseMode="parallax" />
-
-            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/shape_backdrop" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/shape_profile"
+                app:layout_collapseMode="none" />
+
+            <ImageView
+                android:id="@+id/image_view_profile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:src="@mipmap/ic_launcher_round"
+                app:layout_collapseMode="none" />
+
             <TextView
-                android:id="@+id/text_view_title"
+                android:id="@+id/text_view_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -62,7 +71,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detail_movie" />
+    <include layout="@layout/content_detail_person" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

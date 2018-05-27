@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.DetailMovieActivity"
-    tools:showIn="@layout/activity_detail_movie">
+    tools:context=".activities.DetailPersonActivity"
+    tools:showIn="@layout/activity_detail_person">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,18 +20,13 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryDark">
-
-            <ImageView
-                android:id="@+id/image_view_poster"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@mipmap/ic_launcher" />
+            android:background="@color/colorAccent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -42,31 +37,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorAccent"
-                        android:src="@mipmap/ic_star_border_white_24dp" />
-
-                    <TextView
-                        android:id="@+id/text_view_vote_average"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorAccent"
-                        android:text="@string/app_name"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:tint="@color/colorAccent"
+                        android:tint="@color/colorPrimaryDark"
                         android:src="@mipmap/ic_favorite_border_white_24dp" />
 
                     <TextView
@@ -74,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
@@ -84,21 +55,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:tint="@color/colorAccent"
+                        android:tint="@color/colorPrimaryDark"
                         android:src="@mipmap/ic_date_range_white_24dp" />
 
                     <TextView
-                        android:id="@+id/text_view_release_date"
+                        android:id="@+id/text_view_birthday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
@@ -116,12 +88,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/text_original_title"
+            android:text="@string/text_place_of_birth"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view_original_title"
+            android:id="@+id/text_view_place_of_birth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -140,36 +112,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/text_status"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text_view_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/app_name"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/text_genres"
+            android:text="@string/text_also_known_as"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_genres"
+            android:id="@+id/recycler_view_also_known_as"
             android:scrollbars="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -187,12 +135,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/text_overview"
+            android:text="@string/text_biography"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view_overview"
+            android:id="@+id/text_view_biography"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

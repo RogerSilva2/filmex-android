@@ -27,6 +27,16 @@
             android:configChanges="keyboard|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.DetailTvShowActivity"
+            android:configChanges="keyboard|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.DetailPersonActivity"
+            android:configChanges="keyboard|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

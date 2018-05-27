@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity
 
     public static final String ARGS = "ARGS";
     public static final String ARG_MOVIE_ID = "MOVIE_ID";
+    public static final String ARG_TV_SHOW_ID = "TV_SHOW_ID";
+    public static final String ARG_PERSON_ID = "PERSON_ID";
 
     public static final String TAG_FRAGMENT_POPULAR_MOVIES = "FRAGMENT_POPULAR_MOVIES";
     public static final String TAG_FRAGMENT_TOP_RATED_MOVIES = "FRAGMENT_TOP_RATED_MOVIES";
@@ -183,9 +185,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTvShowsFragmentInteraction(TvShow tvShow) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_TV_SHOW_ID, tvShow.getId());
+
+        Intent intent = new Intent(this, DetailTvShowActivity.class);
+        intent.putExtra(ARGS, args);
+
+        startActivity(intent);
     }
 
     @Override
     public void onPeopleFragmentInteraction(Person person) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_PERSON_ID, person.getId());
+
+        Intent intent = new Intent(this, DetailPersonActivity.class);
+        intent.putExtra(ARGS, args);
+
+        startActivity(intent);
     }
 }

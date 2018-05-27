@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.DetailMovieActivity">
+    tools:context=".activities.DetailTvShowActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -38,7 +38,7 @@
                 android:src="@drawable/shape_backdrop" />
 
             <TextView
-                android:id="@+id/text_view_title"
+                android:id="@+id/text_view_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -62,7 +62,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_detail_movie" />
+    <include layout="@layout/content_detail_tv_show" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

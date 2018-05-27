@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.DetailMovieActivity"
-    tools:showIn="@layout/activity_detail_movie">
+    tools:context=".activities.DetailTvShowActivity"
+    tools:showIn="@layout/activity_detail_tv_show">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,7 +94,7 @@
                         android:src="@mipmap/ic_date_range_white_24dp" />
 
                     <TextView
-                        android:id="@+id/text_view_release_date"
+                        android:id="@+id/text_view_first_air_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -116,12 +116,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/text_original_title"
+            android:text="@string/text_original_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/text_view_original_title"
+            android:id="@+id/text_view_original_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
