@@ -3,4 +3,7 @@
     <color name="colorPrimary">#9B26AF</color>
     <color name="colorPrimaryDark">#7A1EA1</color>
     <color name="colorAccent">#68EFAD</color>
+
+    <color name="tmdbColorPrimary">#01d277</color>
+    <color name="tmdbColorSecondary">#081c24</color>
 </resources>

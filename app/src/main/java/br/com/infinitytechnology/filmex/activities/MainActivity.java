@@ -95,6 +95,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_acknowledgments: {
+                Intent intent = new Intent(this, AcknowledgmentsActivity.class);
+                startActivity(intent);
+            } break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

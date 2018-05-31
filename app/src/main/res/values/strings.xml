@@ -25,6 +25,7 @@
     <string name="message_loading">Loading</string>
     <string name="message_connectivity_error">No Internet</string>
 
+    <string name="action_acknowledgments">Acknowledgments</string>
     <string name="action_try_again">Try again</string>
 
     <string name="text_status">Status</string>
@@ -46,6 +47,8 @@
     <string name="text_place_of_birth">Place of Birth</string>
     <string name="text_also_known_as">Also Known As</string>
     <string name="text_biography">Biography</string>
+    <string name="text_tmdb_title">Let\'s talk about TMDb</string>
+    <string name="text_tmdb_description">The Movie Database (TMDb) is a community built movie and TV database. Every piece of data has been added by our amazing community dating back to 2008. TMDb\'s strong international focus and breadth of data is largely unmatched and something we\'re incredibly proud of. Put simply, we live and breathe community and that\'s precisely what makes us different.</string>
 
     <string name="error_server_unavailable">Error server unavailable</string>
     <string name="error_getting_movie">Error getting movie</string>

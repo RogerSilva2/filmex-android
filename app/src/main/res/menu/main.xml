@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_acknowledgments"
+        android:title="@string/action_acknowledgments"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        android:visible="false" />
+        app:showAsAction="never" />
 </menu>
