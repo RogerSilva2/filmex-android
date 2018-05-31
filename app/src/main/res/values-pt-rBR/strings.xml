@@ -16,6 +16,9 @@
     <string name="menu_item_popular_people">Pessoas Populares</string>
 
     <string name="message_loading">Carregando</string>
+    <string name="message_connectivity_error">Sem Internet</string>
+
+    <string name="action_try_again">Tentar novamente</string>
 
     <string name="text_status">Situação</string>
     <string name="text_rumored">Rumores</string>

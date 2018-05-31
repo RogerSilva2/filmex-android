@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -41,6 +43,7 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private CoordinatorLayout mLayoutConnectivityError;
 
     private String mTag;
     private ArrayList<TvShow> mTvShow = new ArrayList<>();
@@ -79,6 +82,8 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
 
+        mLayoutConnectivityError = (CoordinatorLayout) view.findViewById(R.id.layout_connectivity_error);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_tv_shows);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -93,6 +98,16 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(new TvShowAdapter(getActivity(), this, mTvShow));
+
+        Button buttonTryAgain = (Button) view.findViewById(R.id.try_again);
+        buttonTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressDialog.show();
+                refreshList();
+            }
+        });
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setTitle("");
@@ -120,6 +135,8 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
                     mTvShow.addAll(response.body().getResults());
                     refreshAdapter();
                 } else {
+                    mSwipeRefreshLayout.setVisibility(View.GONE);
+                    mLayoutConnectivityError.setVisibility(View.VISIBLE);
                     mSwipeRefreshLayout.setRefreshing(false);
                     mProgressDialog.hide();
                     Log.i(getString(R.string.app_name), getString(R.string.error_getting_tv_shows));
@@ -129,6 +146,8 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<ResponseWithTvShows> call, Throwable t) {
+                mSwipeRefreshLayout.setVisibility(View.GONE);
+                mLayoutConnectivityError.setVisibility(View.VISIBLE);
                 mSwipeRefreshLayout.setRefreshing(false);
                 mProgressDialog.hide();
                 Log.e(getString(R.string.app_name), getString(R.string.error_server_unavailable), t);
@@ -159,8 +178,9 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void refreshAdapter() {
-        TvShowAdapter adapter = new TvShowAdapter(getActivity(), this, mTvShow);
-        mRecyclerView.setAdapter(adapter);
+        mLayoutConnectivityError.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        mRecyclerView.setAdapter(new TvShowAdapter(getActivity(), this, mTvShow));
 
         mSwipeRefreshLayout.setRefreshing(false);
         mProgressDialog.hide();

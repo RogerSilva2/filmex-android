@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
 import br.com.infinitytechnology.filmex.R;
@@ -87,6 +86,7 @@ public class DetailMovieActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<Genre>()));
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("");
@@ -107,6 +107,12 @@ public class DetailMovieActivity extends AppCompatActivity {
         }
 
         requestMovie();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mProgressDialog.dismiss();
+        super.onBackPressed();
     }
 
     @Override
@@ -150,6 +156,7 @@ public class DetailMovieActivity extends AppCompatActivity {
             TextView textViewTitle = (TextView) findViewById(R.id.text_view_title);
             TextView textViewOriginalTitle = (TextView) findViewById(R.id.text_view_original_title);
             TextView textViewStatus = (TextView) findViewById(R.id.text_view_status);
+            TextView textViewTextOverview = (TextView) findViewById(R.id.text_view_text_overview);
             TextView textViewOverview = (TextView) findViewById(R.id.text_view_overview);
             TextView textViewReleaseDate = (TextView) findViewById(R.id.text_view_release_date);
             TextView textViewVoteAverage = (TextView) findViewById(R.id.text_view_vote_average);
@@ -173,13 +180,17 @@ public class DetailMovieActivity extends AppCompatActivity {
             textViewOriginalTitle.setText(mMovie.getOriginalTitle());
 
             textViewStatus.setText(convertStatus(mMovie.getStatus()));
-            textViewOverview.setText(mMovie.getOverview());
+            if (mMovie.getOverview() != null && !mMovie.getOverview().isEmpty()) {
+                textViewOverview.setText(mMovie.getOverview());
+            } else {
+                textViewTextOverview.setVisibility(View.GONE);
+                textViewOverview.setVisibility(View.GONE);
+            }
             textViewReleaseDate.setText(DateUtil.formatShort(this, mMovie.getReleaseDate()));
             textViewVoteAverage.setText(String.valueOf(mMovie.getVoteAverage()));
             textViewPopularity.setText(String.valueOf(mMovie.getPopularity()));
 
-            GenreAdapter adapter = new GenreAdapter(this, new ArrayList<>(mMovie.getGenres()));
-            mRecyclerView.setAdapter(adapter);
+            mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<>(mMovie.getGenres())));
         }
         mProgressDialog.hide();
     }

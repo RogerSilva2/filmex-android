@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -38,6 +40,7 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
     private ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
+    private CoordinatorLayout mLayoutConnectivityError;
 
     private String mTag;
     private ArrayList<Person> mPeople = new ArrayList<>();
@@ -76,6 +79,8 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_people, container, false);
 
+        mLayoutConnectivityError = (CoordinatorLayout) view.findViewById(R.id.layout_connectivity_error);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_people);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -90,6 +95,16 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(new PersonAdapter(getActivity(), this, mPeople));
+
+        Button buttonTryAgain = (Button) view.findViewById(R.id.try_again);
+        buttonTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mProgressDialog.show();
+                refreshList();
+            }
+        });
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setTitle("");
@@ -117,6 +132,8 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
                     mPeople.addAll(response.body().getResults());
                     refreshAdapter();
                 } else {
+                    mSwipeRefreshLayout.setVisibility(View.GONE);
+                    mLayoutConnectivityError.setVisibility(View.VISIBLE);
                     mSwipeRefreshLayout.setRefreshing(false);
                     mProgressDialog.hide();
                     Log.i(getString(R.string.app_name), getString(R.string.error_getting_people));
@@ -126,6 +143,8 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<ResponseWithPeople> call, Throwable t) {
+                mSwipeRefreshLayout.setVisibility(View.GONE);
+                mLayoutConnectivityError.setVisibility(View.VISIBLE);
                 mSwipeRefreshLayout.setRefreshing(false);
                 mProgressDialog.hide();
                 Log.e(getString(R.string.app_name), getString(R.string.error_server_unavailable), t);
@@ -146,8 +165,9 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
     }
 
     private void refreshAdapter() {
-        PersonAdapter adapter = new PersonAdapter(getActivity(), this, mPeople);
-        mRecyclerView.setAdapter(adapter);
+        mLayoutConnectivityError.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        mRecyclerView.setAdapter(new PersonAdapter(getActivity(), this, mPeople));
 
         mSwipeRefreshLayout.setRefreshing(false);
         mProgressDialog.hide();

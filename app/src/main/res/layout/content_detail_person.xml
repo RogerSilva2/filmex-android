@@ -52,6 +52,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -81,6 +82,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/text_view_text_place_of_birth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -128,6 +130,7 @@
             android:layout_marginEnd="16dp" />
 
         <TextView
+            android:id="@+id/text_view_text_biography"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -86,6 +87,7 @@ public class DetailPersonActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(new AlsoKnownAsAdapter(this, new ArrayList<String>()));
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("");
@@ -106,6 +108,12 @@ public class DetailPersonActivity extends AppCompatActivity {
         }
 
         requestPerson();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mProgressDialog.dismiss();
+        super.onBackPressed();
     }
 
     @Override
@@ -147,8 +155,11 @@ public class DetailPersonActivity extends AppCompatActivity {
             ImageView imageViewProfile = (ImageView) findViewById(R.id.image_view_profile);
             TextView textViewName = (TextView) findViewById(R.id.text_view_name);
             TextView textViewPopularity = (TextView) findViewById(R.id.text_view_popularity);
+            LinearLayout layoutBirthday = (LinearLayout) findViewById(R.id.layout_birthday);
             TextView textViewBirthday = (TextView) findViewById(R.id.text_view_birthday);
+            TextView textViewTextPlaceOfBirth = (TextView) findViewById(R.id.text_view_text_place_of_birth);
             TextView textViewPlaceOfBirth = (TextView) findViewById(R.id.text_view_place_of_birth);
+            TextView textViewTextBiography = (TextView) findViewById(R.id.text_view_text_biography);
             TextView textViewBiography = (TextView) findViewById(R.id.text_view_biography);
 
             String apiBaseUrlImages = PropertyUtil.property(this, "api.base.url.images");
@@ -162,12 +173,25 @@ public class DetailPersonActivity extends AppCompatActivity {
 
             textViewName.setText(mPerson.getName());
             textViewPopularity.setText(String.valueOf(mPerson.getPopularity()));
-            textViewBirthday.setText(DateUtil.formatShort(this, mPerson.getBirthday()));
-            textViewPlaceOfBirth.setText(mPerson.getPlaceOfBirth());
-            textViewBiography.setText(mPerson.getBiography());
+            if (mPerson.getBirthday() != null && !mPerson.getBirthday().isEmpty()) {
+                textViewBirthday.setText(DateUtil.formatShort(this, mPerson.getBirthday()));
+            } else {
+                layoutBirthday.setVisibility(View.GONE);
+            }
+            if (mPerson.getPlaceOfBirth() != null && !mPerson.getPlaceOfBirth().isEmpty()) {
+                textViewPlaceOfBirth.setText(mPerson.getPlaceOfBirth());
+            } else {
+                textViewTextPlaceOfBirth.setVisibility(View.GONE);
+                textViewPlaceOfBirth.setVisibility(View.GONE);
+            }
+            if (mPerson.getBiography() != null && !mPerson.getBiography().isEmpty()) {
+                textViewBiography.setText(mPerson.getBiography());
+            } else {
+                textViewTextBiography.setVisibility(View.GONE);
+                textViewBiography.setVisibility(View.GONE);
+            }
 
-            AlsoKnownAsAdapter adapter = new AlsoKnownAsAdapter(this, new ArrayList<>(mPerson.getAlsoKnownAs()));
-            mRecyclerView.setAdapter(adapter);
+            mRecyclerView.setAdapter(new AlsoKnownAsAdapter(this, new ArrayList<>(mPerson.getAlsoKnownAs())));
         }
         mProgressDialog.hide();
     }

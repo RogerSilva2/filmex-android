@@ -23,6 +23,9 @@
     <string name="menu_item_popular_people">Popular People</string>
 
     <string name="message_loading">Loading</string>
+    <string name="message_connectivity_error">No Internet</string>
+
+    <string name="action_try_again">Try again</string>
 
     <string name="text_status">Status</string>
     <string name="text_rumored">Rumored</string>
