@@ -1,14 +1,26 @@
 package br.com.infinitytechnology.filmex.interfaces;
 
+import br.com.infinitytechnology.filmex.entities.ResponseWithKeywords;
 import br.com.infinitytechnology.filmex.entities.ResponseWithMovies;
 import br.com.infinitytechnology.filmex.entities.ResponseWithOneOf;
 import br.com.infinitytechnology.filmex.entities.ResponseWithPeople;
+import br.com.infinitytechnology.filmex.entities.ResponseWithProductionCompanies;
 import br.com.infinitytechnology.filmex.entities.ResponseWithTvShows;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface SearchService {
+
+    @GET("/3/search/company")
+    Call<ResponseWithProductionCompanies> searchCompany(@Query("api_key") String apiKey,
+                                                        @Query("query") String query,
+                                                        @Query("page") Integer page);
+
+    @GET("/3/search/keyword")
+    Call<ResponseWithKeywords> searchKeyword(@Query("api_key") String apiKey,
+                                             @Query("query") String query,
+                                             @Query("page") Integer page);
 
     @GET("/3/search/movie")
     Call<ResponseWithMovies> searchMovie(@Query("api_key") String apiKey,
