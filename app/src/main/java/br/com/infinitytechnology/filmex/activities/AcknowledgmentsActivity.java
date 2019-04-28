@@ -45,7 +45,7 @@ public class AcknowledgmentsActivity extends AppCompatActivity {
         });
 
         ImageView imageViewTmdb = (ImageView) findViewById(R.id.image_view_tmdb);
-        String tmdbPrimaryLight = PropertyUtil.property(this, "tmdb.primary.light");
+        String tmdbPrimaryLight = PropertyUtil.property(this, "tmdb.primary.light.green");
 
         Picasso.with(this)
                 .load(tmdbPrimaryLight)
