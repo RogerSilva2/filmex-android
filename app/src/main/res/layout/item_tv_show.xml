@@ -19,7 +19,8 @@
             android:id="@+id/image_view_poster"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@string/content_description_image_view_poster" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:tint="@color/colorAccent"
-                    android:src="@mipmap/ic_star_border_white_24dp" />
+                    android:src="@mipmap/ic_star_border_white_24dp"
+                    android:contentDescription="@string/content_description_image_view_ic_star_border" />
 
                 <TextView
                     android:id="@+id/text_view_vote_average"
@@ -69,7 +71,8 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:tint="@color/colorAccent"
-                    android:src="@mipmap/ic_favorite_border_white_24dp" />
+                    android:src="@mipmap/ic_favorite_border_white_24dp"
+                    android:contentDescription="@string/content_description_image_view_ic_favorite_border" />
 
                 <TextView
                     android:id="@+id/text_view_popularity"

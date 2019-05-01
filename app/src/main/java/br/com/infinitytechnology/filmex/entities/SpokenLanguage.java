@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,9 +13,6 @@ public class SpokenLanguage implements Parcelable {
 
     @SerializedName("name")
     private String name;
-
-    public SpokenLanguage() {
-    }
 
     private SpokenLanguage(Parcel in) {
         setIso6391(in.readString());
@@ -50,6 +48,7 @@ public class SpokenLanguage implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "SpokenLanguage{" +
                 "iso6391='" + getIso6391() + '\'' +

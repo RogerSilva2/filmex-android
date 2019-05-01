@@ -1,6 +1,7 @@
 package br.com.infinitytechnology.filmex.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,28 +17,27 @@ import java.util.ArrayList;
 import br.com.infinitytechnology.filmex.R;
 import br.com.infinitytechnology.filmex.entities.Person;
 import br.com.infinitytechnology.filmex.utils.CircleTransform;
-import br.com.infinitytechnology.filmex.utils.DateUtil;
 import br.com.infinitytechnology.filmex.utils.PropertyUtil;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
 
     private Context mContext;
     private View.OnClickListener mListener;
-    private ArrayList<Person> mPeople = new ArrayList<>();
+    private ArrayList<Person> mPeople;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout mLayoutPerson;
-        public ImageView mImageViewProfile;
-        public TextView mTextViewName;
-        public TextView mTextViewPopularity;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout mLayoutPerson;
+        private ImageView mImageViewProfile;
+        private TextView mTextViewName;
+        private TextView mTextViewPopularity;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            mLayoutPerson = (LinearLayout) view.findViewById(R.id.layout_person);
-            mImageViewProfile = (ImageView) view.findViewById(R.id.image_view_profile);
-            mTextViewName = (TextView) view.findViewById(R.id.text_view_name);
-            mTextViewPopularity = (TextView) view.findViewById(R.id.text_view_popularity);
+            mLayoutPerson = view.findViewById(R.id.layout_person);
+            mImageViewProfile = view.findViewById(R.id.image_view_profile);
+            mTextViewName = view.findViewById(R.id.text_view_name);
+            mTextViewPopularity = view.findViewById(R.id.text_view_popularity);
         }
     }
 
@@ -48,7 +48,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     }
 
     @Override
-    public PersonAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public PersonAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_person, parent, false);
 
@@ -56,7 +57,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(PersonAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PersonAdapter.ViewHolder holder, int position) {
         Person person = mPeople.get(position);
 
         String apiBaseUrlImages = PropertyUtil.property(mContext, "api.base.url.images");

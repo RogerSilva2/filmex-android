@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -51,9 +52,6 @@ public class Person implements Parcelable {
 
     @SerializedName("profile_path")
     private String profilePath;
-
-    public Person() {
-    }
 
     private Person(Parcel in) {
         setAdult((Boolean) in.readValue(Boolean.class.getClassLoader()));
@@ -199,6 +197,7 @@ public class Person implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "Person{" +
                 "adult=" + getAdult() +

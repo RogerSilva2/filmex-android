@@ -3,10 +3,12 @@ package br.com.infinitytechnology.filmex.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,19 +74,19 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         savedInstanceState.putString(ARG_TAG, mTag);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        mLayoutConnectivityError = (CoordinatorLayout) view.findViewById(R.id.layout_connectivity_error);
+        mLayoutConnectivityError = view.findViewById(R.id.layout_connectivity_error);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_movies);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_movies);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -93,14 +95,14 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_movies);
+        mRecyclerView = view.findViewById(R.id.recycler_view_movies);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(new MovieAdapter(getActivity(), this, mMovies));
 
-        Button buttonTryAgain = (Button) view.findViewById(R.id.try_again);
+        Button buttonTryAgain = view.findViewById(R.id.try_again);
         buttonTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,16 +126,18 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private void refreshList() {
         Locale locale = getResources().getConfiguration().locale;
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
-        String apiKey = PropertyUtil.property(getActivity(), "api.key");
+        String apiKey = PropertyUtil.property(getActivityNonNull(), "api.key");
         Call<ResponseWithMovies> moviesCall =
-                currentMoviesCall(apiKey, language, 1, null);
+                currentMoviesCall(apiKey, language, 1);
         moviesCall.enqueue(new Callback<ResponseWithMovies>() {
             @Override
-            public void onResponse(Call<ResponseWithMovies> call,
-                                   Response<ResponseWithMovies> response) {
+            public void onResponse(@NonNull Call<ResponseWithMovies> call,
+                                   @NonNull Response<ResponseWithMovies> response) {
                 if (response.isSuccessful()) {
                     mMovies.clear();
-                    mMovies.addAll(response.body().getResults());
+                    if (response.body() != null) {
+                        mMovies.addAll(response.body().getResults());
+                    }
                     refreshAdapter();
                 } else {
                     mSwipeRefreshLayout.setVisibility(View.GONE);
@@ -146,7 +150,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<ResponseWithMovies> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseWithMovies> call, @NonNull Throwable t) {
                 mSwipeRefreshLayout.setVisibility(View.GONE);
                 mLayoutConnectivityError.setVisibility(View.VISIBLE);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -157,22 +161,23 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private Call<ResponseWithMovies> currentMoviesCall(String apikey, String language, Integer page,
-                                                       String region) {
+    private Call<ResponseWithMovies> currentMoviesCall(String apiKey, String language,
+                                                       Integer page) {
         MoviesService service = ServiceGenerator.createService(getActivity(), MoviesService.class);
+
         switch (mTag) {
             case TAG_FRAGMENT_TOP_RATED_MOVIES: {
-                return service.movieTopRated(apikey, language, page, region);
+                return service.movieTopRated(apiKey, language, page, null);
             }
             case TAG_FRAGMENT_UPCOMING: {
-                return service.movieUpcoming(apikey, language, page, region);
+                return service.movieUpcoming(apiKey, language, page, null);
             }
             case TAG_FRAGMENT_NOW_PLAYING: {
-                return service.movieNowPlaying(apikey, language, page, region);
+                return service.movieNowPlaying(apiKey, language, page, null);
             }
             case TAG_FRAGMENT_POPULAR_MOVIES:
             default: {
-                return service.moviePopular(apikey, language, page, region);
+                return service.moviePopular(apiKey, language, page, null);
             }
         }
     }
@@ -199,6 +204,14 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     public void onButtonPressed(Movie movie) {
         if (mListener != null) {
             mListener.onMoviesFragmentInteraction(movie);
+        }
+    }
+
+    protected FragmentActivity getActivityNonNull() {
+        if (super.getActivity() != null) {
+            return super.getActivity();
+        } else {
+            throw new RuntimeException("MoviesFragment null returned from getActivity()");
         }
     }
 

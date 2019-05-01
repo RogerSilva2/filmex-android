@@ -1,6 +1,6 @@
 package br.com.infinitytechnology.filmex.adapters;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,26 +14,25 @@ import br.com.infinitytechnology.filmex.entities.Genre;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
 
-    private Context mContext;
-    private ArrayList<Genre> mGenres = new ArrayList<>();
+    private ArrayList<Genre> mGenres;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextViewName;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTextViewName;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            mTextViewName = (TextView) view.findViewById(R.id.text_view_name);
+            mTextViewName = view.findViewById(R.id.text_view_name);
         }
     }
 
-    public GenreAdapter(Context context, ArrayList<Genre> genres) {
-        mContext = context;
+    public GenreAdapter(ArrayList<Genre> genres) {
         mGenres = genres;
     }
 
     @Override
-    public GenreAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public GenreAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_genre, parent, false);
 
@@ -41,7 +40,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Genre genre = mGenres.get(position);
 
         holder.mTextViewName.setText(genre.getName());

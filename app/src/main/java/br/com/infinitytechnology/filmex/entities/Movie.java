@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -87,9 +88,6 @@ public class Movie implements Parcelable {
 
     @SerializedName("vote_count")
     private Integer voteCount;
-
-    public Movie() {
-    }
 
     private Movie(Parcel in) {
         setAdult((Boolean) in.readValue(Boolean.class.getClassLoader()));
@@ -346,6 +344,7 @@ public class Movie implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "Movie{" +
                 "adult=" + getAdult() +

@@ -1,6 +1,7 @@
 package br.com.infinitytechnology.filmex.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,25 +23,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     private Context mContext;
     private View.OnClickListener mListener;
-    private ArrayList<Movie> mMovies = new ArrayList<>();
+    private ArrayList<Movie> mMovies;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout mLayoutMovie;
-        public ImageView mImageViewPoster;
-        public TextView mTextViewTitle;
-        public TextView mTextViewReleaseDate;
-        public TextView mTextViewVoteAverage;
-        public TextView mTextViewPopularity;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout mLayoutMovie;
+        private ImageView mImageViewPoster;
+        private TextView mTextViewTitle;
+        private TextView mTextViewReleaseDate;
+        private TextView mTextViewVoteAverage;
+        private TextView mTextViewPopularity;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            mLayoutMovie = (LinearLayout) view.findViewById(R.id.layout_movie);
-            mImageViewPoster = (ImageView) view.findViewById(R.id.image_view_poster);
-            mTextViewTitle = (TextView) view.findViewById(R.id.text_view_title);
-            mTextViewReleaseDate = (TextView) view.findViewById(R.id.text_view_release_date);
-            mTextViewVoteAverage = (TextView) view.findViewById(R.id.text_view_vote_average);
-            mTextViewPopularity = (TextView) view.findViewById(R.id.text_view_popularity);
+            mLayoutMovie = view.findViewById(R.id.layout_movie);
+            mImageViewPoster = view.findViewById(R.id.image_view_poster);
+            mTextViewTitle = view.findViewById(R.id.text_view_title);
+            mTextViewReleaseDate = view.findViewById(R.id.text_view_release_date);
+            mTextViewVoteAverage = view.findViewById(R.id.text_view_vote_average);
+            mTextViewPopularity = view.findViewById(R.id.text_view_popularity);
         }
     }
 
@@ -51,7 +52,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     @Override
-    public MovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public MovieAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_movie, parent, false);
 
@@ -59,7 +61,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
 
         String apiBaseUrlImages = PropertyUtil.property(mContext, "api.base.url.images");

@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -21,9 +22,6 @@ public class Season implements Parcelable {
 
     @SerializedName("season_number")
     private Integer seasonNumber;
-
-    public Season() {
-    }
 
     private Season(Parcel in) {
         setAirDate(in.readString());
@@ -86,6 +84,7 @@ public class Season implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "Season{" +
                 "airDate='" + getAirDate() + '\'' +

@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         commitMoviesFragment(TAG_FRAGMENT_POPULAR_MOVIES);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -95,16 +95,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_acknowledgments: {
-                Intent intent = new Intent(this, AcknowledgmentsActivity.class);
-                startActivity(intent);
-            } break;
+        if (item.getItemId() == R.id.action_acknowledgments) {
+            Intent intent = new Intent(this, AcknowledgmentsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         unCheckAllMenuItems(mNavigationView.getMenu());
@@ -136,11 +133,11 @@ public class MainActivity extends AppCompatActivity
                 commitTvShowsFragment(TAG_FRAGMENT_AIRING_TODAY);
             } break;
             case R.id.nav_popular_people: {
-                commitPeopleFragment(TAG_FRAGMENT_POPULAR_PEOPLE);
+                commitPeopleFragment();
             } break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -171,7 +168,9 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-    private void commitPeopleFragment(String tag) {
+    private void commitPeopleFragment() {
+        String tag = TAG_FRAGMENT_POPULAR_PEOPLE;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PeopleFragment.newInstance(tag), tag)

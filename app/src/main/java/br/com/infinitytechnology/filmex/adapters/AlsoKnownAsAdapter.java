@@ -1,6 +1,6 @@
 package br.com.infinitytechnology.filmex.adapters;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +13,26 @@ import br.com.infinitytechnology.filmex.R;
 
 public class AlsoKnownAsAdapter extends RecyclerView.Adapter<AlsoKnownAsAdapter.ViewHolder> {
 
-    private Context mContext;
-    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mNames;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextViewName;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTextViewName;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            mTextViewName = (TextView) view.findViewById(R.id.text_view_name);
+            mTextViewName = view.findViewById(R.id.text_view_name);
         }
     }
 
-    public AlsoKnownAsAdapter(Context context, ArrayList<String> names) {
-        mContext = context;
+    public AlsoKnownAsAdapter(ArrayList<String> names) {
         mNames = names;
     }
 
     @Override
-    public AlsoKnownAsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public AlsoKnownAsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                            int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_also_known_as, parent, false);
 
@@ -40,7 +40,7 @@ public class AlsoKnownAsAdapter extends RecyclerView.Adapter<AlsoKnownAsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String name = mNames.get(position);
 
         holder.mTextViewName.setText(name);

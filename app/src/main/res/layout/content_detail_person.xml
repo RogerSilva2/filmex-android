@@ -38,7 +38,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:tint="@color/colorPrimaryDark"
-                        android:src="@mipmap/ic_favorite_border_white_24dp" />
+                        android:src="@mipmap/ic_favorite_border_white_24dp"
+                        android:contentDescription="@string/content_description_image_view_ic_favorite_border" />
 
                     <TextView
                         android:id="@+id/text_view_popularity"
@@ -64,7 +65,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:tint="@color/colorPrimaryDark"
-                        android:src="@mipmap/ic_date_range_white_24dp" />
+                        android:src="@mipmap/ic_date_range_white_24dp"
+                        android:contentDescription="@string/content_description_image_view_ic_date_range" />
 
                     <TextView
                         android:id="@+id/text_view_birthday"

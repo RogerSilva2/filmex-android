@@ -7,6 +7,19 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="content_description_image_view_ic_launcher">Image view icon launcher</string>
+    <string name="content_description_image_view_ic_launcher_round">Image view icon launcher round</string>
+    <string name="content_description_image_view_ic_star_border">Image view icon star border</string>
+    <string name="content_description_image_view_ic_favorite_border">Image view icon favorite border</string>
+    <string name="content_description_image_view_ic_date_range">Image view icon date range</string>
+    <string name="content_description_image_view_ic_cloud_off">Image view icon cloud off</string>
+    <string name="content_description_image_view_tmdb">Image view TMDb</string>
+    <string name="content_description_image_view_poster">Image view poster</string>
+    <string name="content_description_image_view_backdrop">Image view backdrop</string>
+    <string name="content_description_image_view_shape_backdrop">Image view shape backdrop</string>
+    <string name="content_description_image_view_profile">Image view profile</string>
+    <string name="content_description_image_view_shape_profile">Image view shape profile</string>
+
     <string name="format_date">MMM dd, yyyy</string>
     <string name="format_date_short">yyyy-MM-dd</string>
 

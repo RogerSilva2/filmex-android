@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,9 +19,6 @@ public class CreatedBy implements Parcelable {
 
     @SerializedName("profile_path")
     private String profilePath;
-
-    public CreatedBy() {
-    }
 
     private CreatedBy(Parcel in) {
         setId(in.readInt());
@@ -74,6 +72,7 @@ public class CreatedBy implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "CreatedBy{" +
                 "id=" + getId() +

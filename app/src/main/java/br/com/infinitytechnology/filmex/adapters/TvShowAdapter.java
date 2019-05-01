@@ -1,6 +1,7 @@
 package br.com.infinitytechnology.filmex.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,25 +23,25 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
 
     private Context mContext;
     private View.OnClickListener mListener;
-    private ArrayList<TvShow> mTvShows = new ArrayList<>();
+    private ArrayList<TvShow> mTvShows;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout mLayoutTvShow;
-        public ImageView mImageViewPoster;
-        public TextView mTextViewName;
-        public TextView mTextViewFirstAirDate;
-        public TextView mTextViewVoteAverage;
-        public TextView mTextViewPopularity;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout mLayoutTvShow;
+        private ImageView mImageViewPoster;
+        private TextView mTextViewName;
+        private TextView mTextViewFirstAirDate;
+        private TextView mTextViewVoteAverage;
+        private TextView mTextViewPopularity;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
             super(view);
 
-            mLayoutTvShow = (LinearLayout) view.findViewById(R.id.layout_tv_show);
-            mImageViewPoster = (ImageView) view.findViewById(R.id.image_view_poster);
-            mTextViewName = (TextView) view.findViewById(R.id.text_view_name);
-            mTextViewFirstAirDate = (TextView) view.findViewById(R.id.text_view_first_air_date);
-            mTextViewVoteAverage = (TextView) view.findViewById(R.id.text_view_vote_average);
-            mTextViewPopularity = (TextView) view.findViewById(R.id.text_view_popularity);
+            mLayoutTvShow = view.findViewById(R.id.layout_tv_show);
+            mImageViewPoster = view.findViewById(R.id.image_view_poster);
+            mTextViewName = view.findViewById(R.id.text_view_name);
+            mTextViewFirstAirDate = view.findViewById(R.id.text_view_first_air_date);
+            mTextViewVoteAverage = view.findViewById(R.id.text_view_vote_average);
+            mTextViewPopularity = view.findViewById(R.id.text_view_popularity);
         }
     }
 
@@ -52,7 +53,8 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
     }
 
     @Override
-    public TvShowAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public TvShowAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_tv_show, parent, false);
 
@@ -60,7 +62,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(TvShowAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TvShowAdapter.ViewHolder holder, int position) {
         TvShow tvShow = mTvShows.get(position);
 
         String apiBaseUrlImages = PropertyUtil.property(mContext, "api.base.url.images");

@@ -43,7 +43,6 @@
     <string name="text_tmdb_title">Vamos falar sobre o TMDb</string>
     <string name="text_tmdb_description">O Banco de Dados de Filmes (TMDb) é um banco de dados de TV e filmes criados pela comunidade. Cada pedaço de dados foi adicionado pela nossa incrível comunidade desde 2008. O forte foco internacional da TMDb e a amplitude de dados são inigualáveis e algo do qual estamos incrivelmente orgulhosos. Simplificando, nós vivemos e respiramos a comunidade e isso é precisamente o que nos faz diferentes.</string>
 
-
     <string name="error_server_unavailable">Erro servidor indisponível</string>
     <string name="error_getting_movie">Erro ao obter filme</string>
     <string name="error_getting_movies">Erro ao obter filmes</string>

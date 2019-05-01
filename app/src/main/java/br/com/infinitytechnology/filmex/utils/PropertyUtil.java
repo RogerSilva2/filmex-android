@@ -6,7 +6,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.Properties;
 
 import br.com.infinitytechnology.filmex.R;

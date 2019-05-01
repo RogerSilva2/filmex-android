@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,9 +23,6 @@ public class ResponseWithProductionCompanies implements Parcelable {
     @SerializedName("total_pages")
     private Integer totalPages;
 
-    public ResponseWithProductionCompanies() {
-    }
-
     private ResponseWithProductionCompanies(Parcel in) {
         setPage(in.readInt());
         setResults(new ArrayList<ProductionCompany>());
@@ -33,7 +31,8 @@ public class ResponseWithProductionCompanies implements Parcelable {
         setTotalPages(in.readInt());
     }
 
-    public static final Creator<ResponseWithProductionCompanies> CREATOR = new Creator<ResponseWithProductionCompanies>() {
+    public static final Creator<ResponseWithProductionCompanies> CREATOR =
+            new Creator<ResponseWithProductionCompanies>() {
         @Override
         public ResponseWithProductionCompanies createFromParcel(Parcel in) {
             return new ResponseWithProductionCompanies(in);
@@ -78,6 +77,7 @@ public class ResponseWithProductionCompanies implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "ResponseWithProductionCompanies{" +
                 "page=" + getPage() +
@@ -92,7 +92,8 @@ public class ResponseWithProductionCompanies implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ResponseWithProductionCompanies responseWithProductionCompanies = (ResponseWithProductionCompanies) o;
+        ResponseWithProductionCompanies responseWithProductionCompanies =
+                (ResponseWithProductionCompanies) o;
 
         return getPage().equals(responseWithProductionCompanies.getPage());
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,7 +54,7 @@ public class DetailTvShowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_tv_show);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class DetailTvShowActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,12 +82,12 @@ public class DetailTvShowActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_genres);
+        mRecyclerView = findViewById(R.id.recycler_view_genres);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<Genre>()));
+        mRecyclerView.setAdapter(new GenreAdapter(new ArrayList<Genre>()));
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("");
@@ -126,10 +127,11 @@ public class DetailTvShowActivity extends AppCompatActivity {
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
         String apiKey = PropertyUtil.property(this, "api.key");
         TvShowsService service = ServiceGenerator.createService(this, TvShowsService.class);
-        Call<TvShow> tvShowCall = service.tvShow(mTvShowId, apiKey, language, null);
+        Call<TvShow> tvShowCall =
+                service.tvShow(mTvShowId, apiKey, language, null);
         tvShowCall.enqueue(new Callback<TvShow>() {
             @Override
-            public void onResponse(Call<TvShow> call, Response<TvShow> response) {
+            public void onResponse(@NonNull Call<TvShow> call, @NonNull Response<TvShow> response) {
                 if (response.isSuccessful()) {
                     mTvShow = response.body();
                     loadTvShow();
@@ -141,7 +143,7 @@ public class DetailTvShowActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<TvShow> call, Throwable t) {
+            public void onFailure(@NonNull Call<TvShow> call, @NonNull Throwable t) {
                 mProgressDialog.hide();
                 Log.e(getString(R.string.app_name), getString(R.string.error_server_unavailable), t);
                 showSnackbar(R.string.error_server_unavailable);
@@ -151,18 +153,19 @@ public class DetailTvShowActivity extends AppCompatActivity {
 
     private void loadTvShow() {
         if (mTvShow != null) {
-            ImageView imageViewBackdrop = (ImageView) findViewById(R.id.image_view_backdrop);
-            ImageView imageViewPoster = (ImageView) findViewById(R.id.image_view_poster);
-            TextView textViewName = (TextView) findViewById(R.id.text_view_name);
-            TextView textViewOriginalName = (TextView) findViewById(R.id.text_view_original_name);
-            TextView textViewStatus = (TextView) findViewById(R.id.text_view_status);
-            TextView textViewTextOverview = (TextView) findViewById(R.id.text_view_text_overview);
-            TextView textViewOverview = (TextView) findViewById(R.id.text_view_overview);
-            TextView textViewFirstAirDate = (TextView) findViewById(R.id.text_view_first_air_date);
-            TextView textViewVoteAverage = (TextView) findViewById(R.id.text_view_vote_average);
-            TextView textViewPopularity = (TextView) findViewById(R.id.text_view_popularity);
+            ImageView imageViewBackdrop = findViewById(R.id.image_view_backdrop);
+            ImageView imageViewPoster = findViewById(R.id.image_view_poster);
+            TextView textViewName = findViewById(R.id.text_view_name);
+            TextView textViewOriginalName = findViewById(R.id.text_view_original_name);
+            TextView textViewStatus = findViewById(R.id.text_view_status);
+            TextView textViewTextOverview = findViewById(R.id.text_view_text_overview);
+            TextView textViewOverview = findViewById(R.id.text_view_overview);
+            TextView textViewFirstAirDate = findViewById(R.id.text_view_first_air_date);
+            TextView textViewVoteAverage = findViewById(R.id.text_view_vote_average);
+            TextView textViewPopularity = findViewById(R.id.text_view_popularity);
 
-            String apiBaseUrlImages = PropertyUtil.property(this, "api.base.url.images");
+            String apiBaseUrlImages =
+                    PropertyUtil.property(this, "api.base.url.images");
 
             Picasso.with(this)
                     .load(apiBaseUrlImages + mTvShow.getBackdropPath())
@@ -186,11 +189,12 @@ public class DetailTvShowActivity extends AppCompatActivity {
                 textViewTextOverview.setVisibility(View.GONE);
                 textViewOverview.setVisibility(View.GONE);
             }
-            textViewFirstAirDate.setText(DateUtil.formatShort(this, mTvShow.getFirstAirDate()));
+            textViewFirstAirDate.setText(
+                    DateUtil.formatShort(this, mTvShow.getFirstAirDate()));
             textViewVoteAverage.setText(String.valueOf(mTvShow.getVoteAverage()));
             textViewPopularity.setText(String.valueOf(mTvShow.getPopularity()));
 
-            mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<>(mTvShow.getGenres())));
+            mRecyclerView.setAdapter(new GenreAdapter(new ArrayList<>(mTvShow.getGenres())));
         }
         mProgressDialog.hide();
     }

@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,9 +13,6 @@ public class ProductionCountry implements Parcelable {
 
     @SerializedName("name")
     private String name;
-
-    public ProductionCountry() {
-    }
 
     private ProductionCountry(Parcel in) {
         setIso31661(in.readString());
@@ -50,6 +48,7 @@ public class ProductionCountry implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "ProductionCountry{" +
                 "iso31661='" + getIso31661() + '\'' +

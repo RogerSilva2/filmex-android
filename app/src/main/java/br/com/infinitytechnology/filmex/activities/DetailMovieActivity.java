@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -53,7 +54,7 @@ public class DetailMovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class DetailMovieActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,12 +82,12 @@ public class DetailMovieActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_genres);
+        mRecyclerView = findViewById(R.id.recycler_view_genres);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<Genre>()));
+        mRecyclerView.setAdapter(new GenreAdapter(new ArrayList<Genre>()));
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("");
@@ -129,7 +130,7 @@ public class DetailMovieActivity extends AppCompatActivity {
         Call<Movie> movieCall = service.movie(mMovieId, apiKey, language, null);
         movieCall.enqueue(new Callback<Movie>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
+            public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
                 if (response.isSuccessful()) {
                     mMovie = response.body();
                     loadMovie();
@@ -141,7 +142,7 @@ public class DetailMovieActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+            public void onFailure(@NonNull Call<Movie> call, @NonNull Throwable t) {
                 mProgressDialog.hide();
                 Log.e(getString(R.string.app_name), getString(R.string.error_server_unavailable), t);
                 showSnackbar(R.string.error_server_unavailable);
@@ -151,18 +152,19 @@ public class DetailMovieActivity extends AppCompatActivity {
 
     private void loadMovie() {
         if (mMovie != null) {
-            ImageView imageViewBackdrop = (ImageView) findViewById(R.id.image_view_backdrop);
-            ImageView imageViewPoster = (ImageView) findViewById(R.id.image_view_poster);
-            TextView textViewTitle = (TextView) findViewById(R.id.text_view_title);
-            TextView textViewOriginalTitle = (TextView) findViewById(R.id.text_view_original_title);
-            TextView textViewStatus = (TextView) findViewById(R.id.text_view_status);
-            TextView textViewTextOverview = (TextView) findViewById(R.id.text_view_text_overview);
-            TextView textViewOverview = (TextView) findViewById(R.id.text_view_overview);
-            TextView textViewReleaseDate = (TextView) findViewById(R.id.text_view_release_date);
-            TextView textViewVoteAverage = (TextView) findViewById(R.id.text_view_vote_average);
-            TextView textViewPopularity = (TextView) findViewById(R.id.text_view_popularity);
+            ImageView imageViewBackdrop = findViewById(R.id.image_view_backdrop);
+            ImageView imageViewPoster = findViewById(R.id.image_view_poster);
+            TextView textViewTitle = findViewById(R.id.text_view_title);
+            TextView textViewOriginalTitle = findViewById(R.id.text_view_original_title);
+            TextView textViewStatus = findViewById(R.id.text_view_status);
+            TextView textViewTextOverview = findViewById(R.id.text_view_text_overview);
+            TextView textViewOverview = findViewById(R.id.text_view_overview);
+            TextView textViewReleaseDate = findViewById(R.id.text_view_release_date);
+            TextView textViewVoteAverage = findViewById(R.id.text_view_vote_average);
+            TextView textViewPopularity = findViewById(R.id.text_view_popularity);
 
-            String apiBaseUrlImages = PropertyUtil.property(this, "api.base.url.images");
+            String apiBaseUrlImages =
+                    PropertyUtil.property(this, "api.base.url.images");
 
             Picasso.with(this)
                     .load(apiBaseUrlImages + mMovie.getBackdropPath())
@@ -186,11 +188,12 @@ public class DetailMovieActivity extends AppCompatActivity {
                 textViewTextOverview.setVisibility(View.GONE);
                 textViewOverview.setVisibility(View.GONE);
             }
-            textViewReleaseDate.setText(DateUtil.formatShort(this, mMovie.getReleaseDate()));
+            textViewReleaseDate.setText(
+                    DateUtil.formatShort(this, mMovie.getReleaseDate()));
             textViewVoteAverage.setText(String.valueOf(mMovie.getVoteAverage()));
             textViewPopularity.setText(String.valueOf(mMovie.getPopularity()));
 
-            mRecyclerView.setAdapter(new GenreAdapter(this, new ArrayList<>(mMovie.getGenres())));
+            mRecyclerView.setAdapter(new GenreAdapter(new ArrayList<>(mMovie.getGenres())));
         }
         mProgressDialog.hide();
     }

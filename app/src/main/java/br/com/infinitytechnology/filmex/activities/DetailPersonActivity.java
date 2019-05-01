@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,7 +55,7 @@ public class DetailPersonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_person);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +74,7 @@ public class DetailPersonActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.BLACK);
         }
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = findViewById(R.id.fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,12 +83,12 @@ public class DetailPersonActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_also_known_as);
+        mRecyclerView = findViewById(R.id.recycler_view_also_known_as);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(new AlsoKnownAsAdapter(this, new ArrayList<String>()));
+        mRecyclerView.setAdapter(new AlsoKnownAsAdapter(new ArrayList<String>()));
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("");
@@ -127,10 +128,11 @@ public class DetailPersonActivity extends AppCompatActivity {
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
         String apiKey = PropertyUtil.property(this, "api.key");
         PeopleService service = ServiceGenerator.createService(this, PeopleService.class);
-        Call<Person> personCall = service.person(mPersonId, apiKey, language, null);
+        Call<Person> personCall =
+                service.person(mPersonId, apiKey, language, null);
         personCall.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(@NonNull Call<Person> call, @NonNull Response<Person> response) {
                 if (response.isSuccessful()) {
                     mPerson = response.body();
                     loadPerson();
@@ -142,7 +144,7 @@ public class DetailPersonActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+            public void onFailure(@NonNull Call<Person> call, @NonNull Throwable t) {
                 mProgressDialog.hide();
                 Log.e(getString(R.string.app_name), getString(R.string.error_server_unavailable), t);
                 showSnackbar(R.string.error_server_unavailable);
@@ -152,17 +154,18 @@ public class DetailPersonActivity extends AppCompatActivity {
 
     private void loadPerson() {
         if (mPerson != null) {
-            ImageView imageViewProfile = (ImageView) findViewById(R.id.image_view_profile);
-            TextView textViewName = (TextView) findViewById(R.id.text_view_name);
-            TextView textViewPopularity = (TextView) findViewById(R.id.text_view_popularity);
-            LinearLayout layoutBirthday = (LinearLayout) findViewById(R.id.layout_birthday);
-            TextView textViewBirthday = (TextView) findViewById(R.id.text_view_birthday);
-            TextView textViewTextPlaceOfBirth = (TextView) findViewById(R.id.text_view_text_place_of_birth);
-            TextView textViewPlaceOfBirth = (TextView) findViewById(R.id.text_view_place_of_birth);
-            TextView textViewTextBiography = (TextView) findViewById(R.id.text_view_text_biography);
-            TextView textViewBiography = (TextView) findViewById(R.id.text_view_biography);
+            ImageView imageViewProfile = findViewById(R.id.image_view_profile);
+            TextView textViewName = findViewById(R.id.text_view_name);
+            TextView textViewPopularity = findViewById(R.id.text_view_popularity);
+            LinearLayout layoutBirthday = findViewById(R.id.layout_birthday);
+            TextView textViewBirthday = findViewById(R.id.text_view_birthday);
+            TextView textViewTextPlaceOfBirth = findViewById(R.id.text_view_text_place_of_birth);
+            TextView textViewPlaceOfBirth = findViewById(R.id.text_view_place_of_birth);
+            TextView textViewTextBiography = findViewById(R.id.text_view_text_biography);
+            TextView textViewBiography = findViewById(R.id.text_view_biography);
 
-            String apiBaseUrlImages = PropertyUtil.property(this, "api.base.url.images");
+            String apiBaseUrlImages =
+                    PropertyUtil.property(this, "api.base.url.images");
 
             Picasso.with(this)
                     .load(apiBaseUrlImages + mPerson.getProfilePath())
@@ -191,7 +194,8 @@ public class DetailPersonActivity extends AppCompatActivity {
                 textViewBiography.setVisibility(View.GONE);
             }
 
-            mRecyclerView.setAdapter(new AlsoKnownAsAdapter(this, new ArrayList<>(mPerson.getAlsoKnownAs())));
+            mRecyclerView.setAdapter(
+                    new AlsoKnownAsAdapter(new ArrayList<>(mPerson.getAlsoKnownAs())));
         }
         mProgressDialog.hide();
     }

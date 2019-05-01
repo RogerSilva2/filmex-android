@@ -21,7 +21,7 @@ public class AcknowledgmentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acknowledgments);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +35,7 @@ public class AcknowledgmentsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,11 +44,12 @@ public class AcknowledgmentsActivity extends AppCompatActivity {
             }
         });
 
-        ImageView imageViewTmdb = (ImageView) findViewById(R.id.image_view_tmdb);
-        String tmdbPrimaryLight = PropertyUtil.property(this, "tmdb.primary.light.green");
+        ImageView imageViewTmdb = findViewById(R.id.image_view_tmdb);
+        String tmdbPrimaryLightGreen =
+                PropertyUtil.property(this, "tmdb.primary.light.green");
 
         Picasso.with(this)
-                .load(tmdbPrimaryLight)
+                .load(tmdbPrimaryLightGreen)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(imageViewTmdb);

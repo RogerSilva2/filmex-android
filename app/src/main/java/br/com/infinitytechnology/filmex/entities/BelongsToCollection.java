@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,9 +19,6 @@ public class BelongsToCollection implements Parcelable {
 
     @SerializedName("backdrop_path")
     private String backdropPath;
-
-    public BelongsToCollection() {
-    }
 
     private BelongsToCollection(Parcel in) {
         setId(in.readInt());
@@ -74,6 +72,7 @@ public class BelongsToCollection implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "BelongsToCollection{" +
                 "id=" + getId() +

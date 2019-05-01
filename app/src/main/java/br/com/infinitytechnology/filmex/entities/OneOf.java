@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -72,9 +73,6 @@ public class OneOf implements Parcelable {
 
     @SerializedName("known_for")
     private List<OneOf> knownFor;
-
-    public OneOf() {
-    }
 
     private OneOf(Parcel in) {
         setPosterPath(in.readString());
@@ -284,6 +282,7 @@ public class OneOf implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "OneOf{" +
                 "posterPath='" + getPosterPath() + '\'' +

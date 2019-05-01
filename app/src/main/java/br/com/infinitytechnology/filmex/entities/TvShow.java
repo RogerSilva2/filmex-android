@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -90,9 +91,6 @@ public class TvShow implements Parcelable {
 
     @SerializedName("vote_count")
     private Integer voteCount;
-
-    public TvShow() {
-    }
 
     private TvShow(Parcel in) {
         setBackdropPath(in.readString());
@@ -362,6 +360,7 @@ public class TvShow implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "TvShow{" +
                 "backdropPath='" + getBackdropPath() + '\'' +

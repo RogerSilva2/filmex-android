@@ -2,6 +2,7 @@ package br.com.infinitytechnology.filmex.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,9 +23,6 @@ public class ResponseWithOneOf implements Parcelable {
     @SerializedName("total_pages")
     private Integer totalPages;
 
-    public ResponseWithOneOf() {
-    }
-
     private ResponseWithOneOf(Parcel in) {
         setPage(in.readInt());
         setResults(new ArrayList<OneOf>());
@@ -33,7 +31,8 @@ public class ResponseWithOneOf implements Parcelable {
         setTotalPages(in.readInt());
     }
 
-    public static final Parcelable.Creator<ResponseWithOneOf> CREATOR = new Parcelable.Creator<ResponseWithOneOf>() {
+    public static final Parcelable.Creator<ResponseWithOneOf> CREATOR =
+            new Parcelable.Creator<ResponseWithOneOf>() {
         @Override
         public ResponseWithOneOf createFromParcel(Parcel in) {
             return new ResponseWithOneOf(in);
@@ -78,6 +77,7 @@ public class ResponseWithOneOf implements Parcelable {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "ResponseWithOneOf{" +
                 "page=" + getPage() +

@@ -1,5 +1,7 @@
 package br.com.infinitytechnology.filmex.utils;
 
+import android.support.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -10,12 +12,12 @@ public class AuthenticationInterceptor implements Interceptor {
 
     private String authToken;
 
-    public AuthenticationInterceptor(String token) {
+    AuthenticationInterceptor(String token) {
         this.authToken = token;
     }
 
     @Override
-    public Response intercept(Interceptor.Chain chain) throws IOException {
+    public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
         Request original = chain.request();
 
         Request.Builder builder = original.newBuilder()

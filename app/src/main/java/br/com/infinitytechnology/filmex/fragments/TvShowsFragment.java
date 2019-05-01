@@ -3,10 +3,12 @@ package br.com.infinitytechnology.filmex.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,19 +74,19 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         savedInstanceState.putString(ARG_TAG, mTag);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
 
-        mLayoutConnectivityError = (CoordinatorLayout) view.findViewById(R.id.layout_connectivity_error);
+        mLayoutConnectivityError = view.findViewById(R.id.layout_connectivity_error);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_tv_shows);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_tv_shows);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -93,14 +95,14 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_tv_shows);
+        mRecyclerView = view.findViewById(R.id.recycler_view_tv_shows);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(new TvShowAdapter(getActivity(), this, mTvShow));
 
-        Button buttonTryAgain = (Button) view.findViewById(R.id.try_again);
+        Button buttonTryAgain = view.findViewById(R.id.try_again);
         buttonTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,15 +126,17 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
     private void refreshList() {
         Locale locale = getResources().getConfiguration().locale;
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
-        String apiKey = PropertyUtil.property(getActivity(), "api.key");
+        String apiKey = PropertyUtil.property(getActivityNonNull(), "api.key");
         Call<ResponseWithTvShows> tvShowsCall = currentTvShowsCall(apiKey, language, 1);
         tvShowsCall.enqueue(new Callback<ResponseWithTvShows>() {
             @Override
-            public void onResponse(Call<ResponseWithTvShows> call,
-                                   Response<ResponseWithTvShows> response) {
+            public void onResponse(@NonNull Call<ResponseWithTvShows> call,
+                                   @NonNull Response<ResponseWithTvShows> response) {
                 if (response.isSuccessful()) {
                     mTvShow.clear();
-                    mTvShow.addAll(response.body().getResults());
+                    if (response.body() != null)  {
+                        mTvShow.addAll(response.body().getResults());
+                    }
                     refreshAdapter();
                 } else {
                     mSwipeRefreshLayout.setVisibility(View.GONE);
@@ -145,7 +149,7 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<ResponseWithTvShows> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseWithTvShows> call, @NonNull Throwable t) {
                 mSwipeRefreshLayout.setVisibility(View.GONE);
                 mLayoutConnectivityError.setVisibility(View.VISIBLE);
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -156,23 +160,23 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private Call<ResponseWithTvShows> currentTvShowsCall(String apikey, String language,
+    private Call<ResponseWithTvShows> currentTvShowsCall(String apiKey, String language,
                                                          Integer page) {
         TvShowsService service =
                 ServiceGenerator.createService(getActivity(), TvShowsService.class);
         switch (mTag) {
             case TAG_FRAGMENT_TOP_RATED_TV_SHOWS: {
-                return service.tvShowTopRated(apikey, language, page);
+                return service.tvShowTopRated(apiKey, language, page);
             }
             case TAG_FRAGMENT_ON_TV: {
-                return service.tvShowOnTheAir(apikey, language, page);
+                return service.tvShowOnTheAir(apiKey, language, page);
             }
             case TAG_FRAGMENT_AIRING_TODAY: {
-                return service.tvShowAiringToday(apikey, language, page);
+                return service.tvShowAiringToday(apiKey, language, page);
             }
             case TAG_FRAGMENT_POPULAR_TV_SHOWS:
             default: {
-                return service.tvShowPopular(apikey, language, page);
+                return service.tvShowPopular(apiKey, language, page);
             }
         }
     }
@@ -199,6 +203,14 @@ public class TvShowsFragment extends Fragment implements View.OnClickListener {
     public void onButtonPressed(TvShow tvShow) {
         if (mListener != null) {
             mListener.onTvShowsFragmentInteraction(tvShow);
+        }
+    }
+
+    protected FragmentActivity getActivityNonNull() {
+        if (super.getActivity() != null) {
+            return super.getActivity();
+        } else {
+            throw new RuntimeException("TvShowsFragment null returned from getActivity()");
         }
     }
 
