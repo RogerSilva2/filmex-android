@@ -11,15 +11,20 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import br.com.infinitytechnology.filmex.R;
 import br.com.infinitytechnology.filmex.entities.Movie;
 import br.com.infinitytechnology.filmex.entities.Person;
 import br.com.infinitytechnology.filmex.entities.TvShow;
+import br.com.infinitytechnology.filmex.fragments.FragmentPagination;
 import br.com.infinitytechnology.filmex.fragments.MoviesFragment;
 import br.com.infinitytechnology.filmex.fragments.PeopleFragment;
 import br.com.infinitytechnology.filmex.fragments.TvShowsFragment;
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity
     public static final String ARG_TV_SHOW_ID = "TV_SHOW_ID";
     public static final String ARG_PERSON_ID = "PERSON_ID";
 
+    public static final String ARG_TAG = "TAG";
+    public static final String ARG_PAGE = "PAGE";
+
     public static final String TAG_FRAGMENT_POPULAR_MOVIES = "FRAGMENT_POPULAR_MOVIES";
     public static final String TAG_FRAGMENT_TOP_RATED_MOVIES = "FRAGMENT_TOP_RATED_MOVIES";
     public static final String TAG_FRAGMENT_UPCOMING = "FRAGMENT_UPCOMING";
@@ -48,6 +56,12 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG_FRAGMENT_POPULAR_PEOPLE = "FRAGMENT_POPULAR_PEOPLE";
 
     private NavigationView mNavigationView;
+    private TextView mTextViewPage;
+    private TextView mTextViewTotalPages;
+    private Button mButtonPrevious;
+    private Button mButtonNext;
+
+    private String mTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +76,36 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        LinearLayoutCompat layoutPage = findViewById(R.id.layout_page);
+        mTextViewPage = layoutPage.findViewById(R.id.text_view_name);
+
+        LinearLayoutCompat layoutTotalPages = findViewById(R.id.layout_total_pages);
+        mTextViewTotalPages = layoutTotalPages.findViewById(R.id.text_view_name);
+
+        mButtonPrevious = findViewById(R.id.button_previous);
+        mButtonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentPagination fragment =
+                        (FragmentPagination) getSupportFragmentManager().findFragmentByTag(mTag);
+                if (fragment != null) {
+                    fragment.paginationPrevious();
+                }
+            }
+        });
+
+        mButtonNext = findViewById(R.id.button_next);
+        mButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentPagination fragment =
+                        (FragmentPagination) getSupportFragmentManager().findFragmentByTag(mTag);
+                if (fragment != null) {
+                    fragment.paginationNext();
+                }
             }
         });
 
@@ -155,25 +199,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void commitMoviesFragment(String tag) {
+        mTag = tag;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, MoviesFragment.newInstance(tag), tag)
+                .replace(R.id.container, MoviesFragment.newInstance(mTag), mTag)
                 .commit();
     }
 
     private void commitTvShowsFragment(String tag) {
+        mTag = tag;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, TvShowsFragment.newInstance(tag), tag)
+                .replace(R.id.container, TvShowsFragment.newInstance(mTag), mTag)
                 .commit();
     }
 
     private void commitPeopleFragment() {
-        String tag = TAG_FRAGMENT_POPULAR_PEOPLE;
-
+        mTag = TAG_FRAGMENT_POPULAR_PEOPLE;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PeopleFragment.newInstance(tag), tag)
+                .replace(R.id.container, PeopleFragment.newInstance(mTag), mTag)
                 .commit();
     }
 
@@ -208,5 +253,20 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(ARGS, args);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onPaginationFragmentInteraction(Pair<Integer, Integer> pair) {
+        mTextViewPage.setText(String.valueOf(pair.first));
+        mTextViewTotalPages.setText(String.valueOf(pair.second));
+
+        mButtonPrevious.setVisibility(View.VISIBLE);
+        mButtonNext.setVisibility(View.VISIBLE);
+
+        if (pair.first.equals(1)) {
+            mButtonPrevious.setVisibility(View.INVISIBLE);
+        } else if (pair.first.equals(pair.second)) {
+            mButtonNext.setVisibility(View.INVISIBLE);
+        }
     }
 }

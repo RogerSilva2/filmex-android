@@ -7,13 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static br.com.infinitytechnology.filmex.activities.MainActivity.TAG_FRAGMENT_POPULAR_PEOPLE;
+import static br.com.infinitytechnology.filmex.activities.MainActivity.ARG_PAGE;
+import static br.com.infinitytechnology.filmex.activities.MainActivity.ARG_TAG;
 
-public class PeopleFragment extends Fragment implements View.OnClickListener {
-
-    private static final String ARG_TAG = "TAG";
+public class PeopleFragment extends FragmentPagination implements View.OnClickListener {
 
     private ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,6 +44,7 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
     private CoordinatorLayout mLayoutConnectivityError;
 
     private String mTag;
+    private Integer mPage;
     private ArrayList<Person> mPeople = new ArrayList<>();
 
     private OnPeopleFragmentInteractionListener mListener;
@@ -65,14 +65,17 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mTag = savedInstanceState.getString(ARG_TAG);
+            mPage = savedInstanceState.getInt(ARG_PAGE, 1);
         } else if (getArguments() != null) {
             mTag = getArguments().getString(ARG_TAG);
+            mPage = getArguments().getInt(ARG_PAGE, 1);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         savedInstanceState.putString(ARG_TAG, mTag);
+        savedInstanceState.putInt(ARG_PAGE, mPage);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -99,7 +102,7 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(new PersonAdapter(getActivity(), this, mPeople));
 
-        Button buttonTryAgain = view.findViewById(R.id.try_again);
+        Button buttonTryAgain = view.findViewById(R.id.button_try_again);
         buttonTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +127,7 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         Locale locale = getResources().getConfiguration().locale;
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
         String apiKey = PropertyUtil.property(getActivityNonNull(), "api.key");
-        Call<ResponseWithPeople> peopleCall = currentPeopleCall(apiKey, language, 1);
+        Call<ResponseWithPeople> peopleCall = currentPeopleCall(apiKey, language, mPage);
         peopleCall.enqueue(new Callback<ResponseWithPeople>() {
             @Override
             public void onResponse(@NonNull Call<ResponseWithPeople> call,
@@ -132,7 +135,10 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
                 if (response.isSuccessful()) {
                     mPeople.clear();
                     if (response.body() != null) {
+                        mPage = response.body().getPage();
+                        Integer totalPages = response.body().getTotalPages();
                         mPeople.addAll(response.body().getResults());
+                        onPaginationPressed(new Pair<>(mPage, totalPages));
                     }
                     refreshAdapter();
                 } else {
@@ -182,9 +188,15 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         onButtonPressed(mPeople.get(id));
     }
 
-    public void onButtonPressed(Person person) {
+    private void onButtonPressed(Person person) {
         if (mListener != null) {
             mListener.onPeopleFragmentInteraction(person);
+        }
+    }
+
+    private void onPaginationPressed(Pair<Integer, Integer> pair) {
+        if (mListener != null) {
+            mListener.onPaginationFragmentInteraction(pair);
         }
     }
 
@@ -213,7 +225,22 @@ public class PeopleFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    @Override
+    public void paginationPrevious() {
+        mProgressDialog.show();
+        mPage--;
+        refreshList();
+    }
+
+    @Override
+    public void paginationNext() {
+        mProgressDialog.show();
+        mPage++;
+        refreshList();
+    }
+
     public interface OnPeopleFragmentInteractionListener {
         void onPeopleFragmentInteraction(Person person);
+        void onPaginationFragmentInteraction(Pair<Integer, Integer> pair);
     }
 }

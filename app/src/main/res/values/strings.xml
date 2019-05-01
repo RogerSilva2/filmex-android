@@ -20,6 +20,8 @@
     <string name="content_description_image_view_profile">Image view profile</string>
     <string name="content_description_image_view_shape_profile">Image view shape profile</string>
 
+    <string name="slash">/</string>
+
     <string name="format_date">MMM dd, yyyy</string>
     <string name="format_date_short">yyyy-MM-dd</string>
 
@@ -40,6 +42,8 @@
 
     <string name="action_acknowledgments">Acknowledgments</string>
     <string name="action_try_again">Try again</string>
+    <string name="action_previous">Previous</string>
+    <string name="action_next">Next</string>
 
     <string name="text_status">Status</string>
     <string name="text_rumored">Rumored</string>

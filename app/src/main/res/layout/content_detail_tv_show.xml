@@ -9,12 +9,12 @@
     tools:context=".activities.DetailTvShowActivity"
     tools:showIn="@layout/activity_detail_tv_show">
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -29,12 +29,12 @@
                 android:src="@mipmap/ic_launcher"
                 android:contentDescription="@string/content_description_image_view_poster" />
 
-            <LinearLayout
+            <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -56,9 +56,9 @@
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
-                </LinearLayout>
+                </android.support.v7.widget.LinearLayoutCompat>
 
-                <LinearLayout
+                <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -81,9 +81,9 @@
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
-                </LinearLayout>
+                </android.support.v7.widget.LinearLayoutCompat>
 
-                <LinearLayout
+                <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -106,11 +106,11 @@
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
-                </LinearLayout>
+                </android.support.v7.widget.LinearLayoutCompat>
 
-            </LinearLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
 
-        </LinearLayout>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <TextView
             android:layout_width="wrap_content"
@@ -209,6 +209,6 @@
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.v4.widget.NestedScrollView>

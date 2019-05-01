@@ -9,12 +9,12 @@
     tools:context=".activities.DetailPersonActivity"
     tools:showIn="@layout/activity_detail_person">
 
-    <LinearLayout
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -22,13 +22,13 @@
             android:orientation="horizontal"
             android:background="@color/colorAccent">
 
-            <LinearLayout
+            <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -50,9 +50,9 @@
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
-                </LinearLayout>
+                </android.support.v7.widget.LinearLayoutCompat>
 
-                <LinearLayout
+                <android.support.v7.widget.LinearLayoutCompat
                     android:id="@+id/layout_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,11 +77,11 @@
                         android:text="@string/app_name"
                         android:textStyle="bold" />
 
-                </LinearLayout>
+                </android.support.v7.widget.LinearLayoutCompat>
 
-            </LinearLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
 
-        </LinearLayout>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <TextView
             android:id="@+id/text_view_text_place_of_birth"
@@ -157,6 +157,6 @@
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    </LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.v4.widget.NestedScrollView>

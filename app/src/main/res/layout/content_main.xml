@@ -9,8 +9,79 @@
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/button_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/action_previous"
+            android:textColor="@color/colorPrimaryDark"
+            android:drawableLeft="@mipmap/ic_keyboard_arrow_left_white_24dp"
+            android:drawableStart="@mipmap/ic_keyboard_arrow_left_white_24dp"
+            android:drawableTint="@color/colorPrimaryDark"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="0dp"
+            android:paddingStart="0dp" />
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/action_next"
+            android:textColor="@color/colorPrimaryDark"
+            android:drawableRight="@mipmap/ic_keyboard_arrow_right_white_24dp"
+            android:drawableEnd="@mipmap/ic_keyboard_arrow_right_white_24dp"
+            android:drawableTint="@color/colorPrimaryDark"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:layout_toRightOf="@+id/button_previous"
+            android:layout_toEndOf="@+id/button_previous"
+            android:layout_toLeftOf="@+id/button_next"
+            android:layout_toStartOf="@+id/button_next"
+            android:orientation="horizontal">
+
+            <include android:id="@+id/layout_page"
+                layout="@layout/item_also_known_as" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/slash"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
+
+            <include android:id="@+id/layout_total_pages"
+                layout="@layout/item_also_known_as" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/container"
+        android:layout_marginTop="50dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints" />

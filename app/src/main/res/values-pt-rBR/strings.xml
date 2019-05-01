@@ -20,6 +20,8 @@
 
     <string name="action_acknowledgments">Agradecimentos</string>
     <string name="action_try_again">Tentar novamente</string>
+    <string name="action_previous">Anterior</string>
+    <string name="action_next">Próximo</string>
 
     <string name="text_status">Situação</string>
     <string name="text_rumored">Rumores</string>

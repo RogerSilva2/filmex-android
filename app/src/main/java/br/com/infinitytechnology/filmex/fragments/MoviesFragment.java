@@ -7,13 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +33,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static br.com.infinitytechnology.filmex.activities.MainActivity.ARG_TAG;
+import static br.com.infinitytechnology.filmex.activities.MainActivity.ARG_PAGE;
 import static br.com.infinitytechnology.filmex.activities.MainActivity.TAG_FRAGMENT_NOW_PLAYING;
 import static br.com.infinitytechnology.filmex.activities.MainActivity.TAG_FRAGMENT_POPULAR_MOVIES;
 import static br.com.infinitytechnology.filmex.activities.MainActivity.TAG_FRAGMENT_TOP_RATED_MOVIES;
 import static br.com.infinitytechnology.filmex.activities.MainActivity.TAG_FRAGMENT_UPCOMING;
 
-public class MoviesFragment extends Fragment implements View.OnClickListener {
-
-    private static final String ARG_TAG = "TAG";
+public class MoviesFragment extends FragmentPagination implements View.OnClickListener {
 
     private ProgressDialog mProgressDialog;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -48,6 +48,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
     private CoordinatorLayout mLayoutConnectivityError;
 
     private String mTag;
+    private Integer mPage;
     private ArrayList<Movie> mMovies = new ArrayList<>();
 
     private OnMoviesFragmentInteractionListener mListener;
@@ -68,14 +69,17 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mTag = savedInstanceState.getString(ARG_TAG);
+            mPage = savedInstanceState.getInt(ARG_PAGE, 1);
         } else if (getArguments() != null) {
             mTag = getArguments().getString(ARG_TAG);
+            mPage = getArguments().getInt(ARG_PAGE, 1);
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         savedInstanceState.putString(ARG_TAG, mTag);
+        savedInstanceState.putInt(ARG_PAGE, mPage);
         super.onSaveInstanceState(savedInstanceState);
     }
 
@@ -102,7 +106,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(new MovieAdapter(getActivity(), this, mMovies));
 
-        Button buttonTryAgain = view.findViewById(R.id.try_again);
+        Button buttonTryAgain = view.findViewById(R.id.button_try_again);
         buttonTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,8 +131,7 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         Locale locale = getResources().getConfiguration().locale;
         String language = locale.getLanguage().concat("-").concat(locale.getCountry());
         String apiKey = PropertyUtil.property(getActivityNonNull(), "api.key");
-        Call<ResponseWithMovies> moviesCall =
-                currentMoviesCall(apiKey, language, 1);
+        Call<ResponseWithMovies> moviesCall = currentMoviesCall(apiKey, language, mPage);
         moviesCall.enqueue(new Callback<ResponseWithMovies>() {
             @Override
             public void onResponse(@NonNull Call<ResponseWithMovies> call,
@@ -136,7 +139,10 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
                 if (response.isSuccessful()) {
                     mMovies.clear();
                     if (response.body() != null) {
+                        mPage = response.body().getPage();
+                        Integer totalPages = response.body().getTotalPages();
                         mMovies.addAll(response.body().getResults());
+                        onPaginationPressed(new Pair<>(mPage, totalPages));
                     }
                     refreshAdapter();
                 } else {
@@ -201,9 +207,15 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         onButtonPressed(mMovies.get(id));
     }
 
-    public void onButtonPressed(Movie movie) {
+    private void onButtonPressed(Movie movie) {
         if (mListener != null) {
             mListener.onMoviesFragmentInteraction(movie);
+        }
+    }
+
+    private void onPaginationPressed(Pair<Integer, Integer> pair) {
+        if (mListener != null) {
+            mListener.onPaginationFragmentInteraction(pair);
         }
     }
 
@@ -232,7 +244,22 @@ public class MoviesFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+    @Override
+    public void paginationPrevious() {
+        mProgressDialog.show();
+        mPage--;
+        refreshList();
+    }
+
+    @Override
+    public void paginationNext() {
+        mProgressDialog.show();
+        mPage++;
+        refreshList();
+    }
+
     public interface OnMoviesFragmentInteractionListener {
         void onMoviesFragmentInteraction(Movie movie);
+        void onPaginationFragmentInteraction(Pair<Integer, Integer> pair);
     }
 }
